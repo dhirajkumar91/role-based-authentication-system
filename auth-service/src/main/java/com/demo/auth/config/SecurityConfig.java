@@ -99,6 +99,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Order(1)
 public SecurityFilterChain authFilterChain(HttpSecurity http) throws Exception {
     http
         .securityMatcher("/api/v1/auth/**") // only auth routes
@@ -113,6 +114,7 @@ public SecurityFilterChain authFilterChain(HttpSecurity http) throws Exception {
 
 
 @Bean
+@Order(2)
 public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
     http
         .csrf(AbstractHttpConfigurer::disable)
