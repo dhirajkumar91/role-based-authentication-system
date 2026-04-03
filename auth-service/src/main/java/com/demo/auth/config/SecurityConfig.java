@@ -99,26 +99,38 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+public SecurityFilterChain authFilterChain(HttpSecurity http) throws Exception {
+    http
+        .securityMatcher("/api/v1/auth/**") // only auth routes
+        .csrf(AbstractHttpConfigurer::disable)
+        .cors(Customizer.withDefaults())
+        .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()
+        );
 
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
+    return http.build();
+}
 
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
 
-                .oauth2ResourceServer(
-                        rs -> rs.jwt(Customizer.withDefaults())
-                )
+@Bean
+public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(AbstractHttpConfigurer::disable)
+        .cors(Customizer.withDefaults())
 
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+        .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+        )
 
-                .build();
-    }
+        .oauth2ResourceServer(oauth2 -> oauth2
+                .jwt(Customizer.withDefaults())
+        )
+
+        .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        );
+
+    return http.build();
+}    
 }
