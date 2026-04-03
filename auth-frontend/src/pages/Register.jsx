@@ -69,7 +69,7 @@ function Register(){
                         className="w-full p-3 border rounded-lg"
                     >
                         <option value="USER">USER</option>
-                        <option value="MANAGER">FACULTY</option>
+                        <option value="FACULTY">FACULTY</option>
                     </select>
 
                     <button
