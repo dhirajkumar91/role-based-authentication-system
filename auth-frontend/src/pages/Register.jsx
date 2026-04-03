@@ -13,6 +13,7 @@ function Register(){
         role:"USER"
     });
 
+    
     const handleChange = (e)=>{
         setForm({...form,[e.target.name]:e.target.value});
     };
