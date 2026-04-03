@@ -10,7 +10,7 @@ function Register(){
         username:"",
         email:"",
         password:"",
-        roleName:"USER"
+        role:"USER"
     });
 
     const handleChange = (e)=>{
@@ -64,7 +64,7 @@ function Register(){
                     />
 
                     <select
-                        name="roleName"
+                        name="role"
                         onChange={handleChange}
                         className="w-full p-3 border rounded-lg"
                     >
